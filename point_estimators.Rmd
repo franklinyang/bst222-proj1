@@ -1,0 +1,54 @@
+---
+title: "point_estimators"
+author: "Franklin Yang"
+date: "11/11/2019"
+output: html_document
+---
+
+```{r}
+set.seed(21)
+install.packages("DescTools")
+library("DescTools")
+```
+
+## Point estimators
+
+Get samples
+```{r}
+sample_10 <- rpois(10, 5)
+sample_50 <- rpois(50, 5)
+sample_100 <- rpois(100, 5)
+```
+
+Point estimator 1: MLE
+```{r}
+mle <- function(sample) {
+  mean(sample)
+}
+
+mle(sample_10)
+mle(sample_50)
+mle(sample_100)
+```
+
+Point estimator 2: Method of moments - second moment
+http://www.maths.qmul.ac.uk/~bb/MS_NotesWeek10.pdf
+```{r}
+mom_2 <- function(sample) {
+  sum(sample ** 2) / length(sample) - mean(sample) ** 2
+}
+mom_2(sample_10)
+mom_2(sample_50)
+mom_2(sample_100)
+```
+
+Point estimator 3: ideas people?
+``` {r}
+
+```
+## Confidence intervals
+``` {r}
+PoissonCI(x=5, n=10, conf.level = 0.95, method = c("exact", "score", "wald"))
+PoissonCI(x=5, n=50, conf.level = 0.95, method = c("exact", "score", "wald"))
+PoissonCI(x=5, n=100, conf.level = 0.95, method = c("exact", "score", "wald"))
+```
