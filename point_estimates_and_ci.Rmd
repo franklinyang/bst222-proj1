@@ -42,9 +42,11 @@ mom_2(sample_50)
 mom_2(sample_100)
 ```
 
-Point estimator 3: ideas people?
+Point estimator 3: Median
 ``` {r}
-
+median(sample_10)
+median(sample_50)
+median(sample_100)
 ```
 ## Confidence intervals
 ``` {r}
