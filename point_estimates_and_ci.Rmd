@@ -35,19 +35,22 @@ Point estimator 2: Method of moments
 http://www.maths.qmul.ac.uk/~bb/MS_NotesWeek10.pdf
 ```{r}
 # (NOTE FROM FRANKLIN...) Just realized that second moment is not a estimator for lambda... lol.
-# mom_2 <- function(sample) {
-#   sum(sample ** 2) / length(sample) - mean(sample) ** 2
-# }
-# mom_2(sample_10)
-# mom_2(sample_50)
-# mom_2(sample_100)
+mom_2 <- function(sample) {
+   sqrt(sum(sample ** 2) / length(sample) + 1/4) - 1/2
+}
+mom_2(sample_10)
+mom_2(sample_50)
+mom_2(sample_100)
 ```
 
-Point estimator 3: Median
+Point estimator 3: Method of Median
 ``` {r}
-median(sample_10)
-median(sample_50)
-median(sample_100)
+MOMedian <- function(sample){
+  median(sample)-1/3+0.02/mean(sample)
+}
+MOMedian(sample_10)
+MOMedian(sample_50)
+MOMedian(sample_100)
 ```
 ## Confidence intervals
 ``` {r}
