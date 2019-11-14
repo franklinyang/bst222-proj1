@@ -31,15 +31,16 @@ mle(sample_50)
 mle(sample_100)
 ```
 
-Point estimator 2: Method of moments - second moment
+Point estimator 2: Method of moments
 http://www.maths.qmul.ac.uk/~bb/MS_NotesWeek10.pdf
 ```{r}
-mom_2 <- function(sample) {
-  sum(sample ** 2) / length(sample) - mean(sample) ** 2
-}
-mom_2(sample_10)
-mom_2(sample_50)
-mom_2(sample_100)
+# (NOTE FROM FRANKLIN...) Just realized that second moment is not a estimator for lambda... lol.
+# mom_2 <- function(sample) {
+#   sum(sample ** 2) / length(sample) - mean(sample) ** 2
+# }
+# mom_2(sample_10)
+# mom_2(sample_50)
+# mom_2(sample_100)
 ```
 
 Point estimator 3: Median
