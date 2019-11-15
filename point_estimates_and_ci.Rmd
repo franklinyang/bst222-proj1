@@ -18,6 +18,7 @@ Get samples
 sample_10 <- rpois(10, 5)
 sample_50 <- rpois(50, 5)
 sample_100 <- rpois(100, 5)
+sample_10
 ```
 
 Point estimator 1: MLE
@@ -31,26 +32,80 @@ mle(sample_50)
 mle(sample_100)
 ```
 
-Point estimator 2: Method of moments - second moment
+Point estimator 2: Method of moments
 http://www.maths.qmul.ac.uk/~bb/MS_NotesWeek10.pdf
 ```{r}
+# (NOTE FROM FRANKLIN...) Just realized that second moment is not a estimator for lambda... lol.
 mom_2 <- function(sample) {
-  sum(sample ** 2) / length(sample) - mean(sample) ** 2
+   sqrt(sum(sample ** 2) / length(sample) + 1/4) - 1/2
 }
 mom_2(sample_10)
 mom_2(sample_50)
 mom_2(sample_100)
 ```
 
-Point estimator 3: Median
+Point estimator 3: Method of Median
 ``` {r}
-median(sample_10)
-median(sample_50)
-median(sample_100)
+MOMedian <- function(sample){
+  median(sample)-1/3+0.02/mean(sample)
+}
+MOMedian(sample_10)
+MOMedian(sample_50)
+MOMedian(sample_100)
 ```
+
 ## Confidence intervals
-``` {r}
-PoissonCI(x=50, n=10, conf.level = 0.95, method = c("exact", "score", "wald"))
-PoissonCI(x=250, n=50, conf.level = 0.95, method = c("exact", "score", "wald"))
-PoissonCI(x=500, n=100, conf.level = 0.95, method = c("exact", "score", "wald"))
+
+```{r}
+Exact.CI.lwr = vector()
+Exact.CI.upr = vector()
+Score.CI.lwr = vector()
+Score.CI.upr = vector()
+Wald.CI.lwr = vector()
+Wald.CI.upr = vector()
+Exact.est = vector()
+Score.est = vector()
+Wald.est = vector()
+x = seq(5,1000,5)
+
+for (i in 1:length(x)){
+  Exact.CI.lwr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "exact")[,"lwr.ci"]
+  Exact.CI.upr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "exact")[,"upr.ci"]
+  Exact.est[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "exact")[,"est"]
+  
+  Score.CI.lwr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "score")[,"lwr.ci"]
+  Score.CI.upr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "score")[,"upr.ci"]
+  Score.est[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "score")[,"est"]
+  
+  Wald.CI.lwr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "wald")[,"lwr.ci"]
+  Wald.CI.upr[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "wald")[,"upr.ci"]
+  Wald.est[i] = PoissonCI(sum(rpois(x[i], 5)), n= x[i], conf.level = 0.95, method = "wald")[,"est"]
+}
+
+```
+
+Plots of confidence intervals:
+
+```{r, fig3, fig.width = 4.5, fig.height=2}
+colors = c("steelblue", "orange", "darkolivegreen3", "red")
+colors.transparent = adjustcolor(colors, alpha.f = 0.3)
+
+par(mfrow = c(1,3))
+plot(x, Exact.CI.lwr,type = "l",cex = 0.3, col = colors[1],ylim = c(2,8), main = "Confidence Interval vs. sample size n (Exact Test)", xlab = "sample size", ylab = "Exact Confidence Interval", cex.main = 0.9)
+lines(x, Exact.CI.upr, cex = 0.3, col = colors[1])
+polygon(c(x,rev(x)),c(Exact.CI.upr,rev(Exact.CI.lwr)),col=colors.transparent[1], border = FALSE)
+abline(h = 5, col = colors[4])
+legend("topright", c("CI boundaries for Exact test", "True lambda = 5"), col = colors[c(1,4)], lty = 'solid')
+
+plot(x, Score.CI.lwr,type = "l",cex = 0.3, col = colors[2], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Score Test)", xlab = "sample size", ylab = "Score Confidence Interval", cex.main = 0.9)
+lines(x, Score.CI.upr, pch = 20, cex = 0.3, col = colors[2])
+polygon(c(x,rev(x)),c(Score.CI.upr,rev(Score.CI.lwr)),col=colors.transparent[2], border = FALSE)
+abline(h = 5, col = colors[4])
+legend("topright", c("CI boundaries for Score test", "True lambda = 5"), col = colors[c(2,4)], lty = 'solid')
+
+plot(x, Wald.CI.lwr,type = "l",cex = 0.3, col = colors[3], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Wald Test)", xlab = "sample size", ylab = "Wald Confidence Interval", cex.main= 0.9)
+lines(x, Wald.CI.upr, pch = 20, cex = 0.3, col = colors[3])
+polygon(c(x,rev(x)),c(Wald.CI.upr,rev(Wald.CI.lwr)),col=colors.transparent[3], border = FALSE)
+abline(h = 5, col = colors[4])
+legend("topright", c("CI boundaries for Wald test", "True lambda = 5"), col = colors[c(3,4)], lty = 'solid')
 ```
