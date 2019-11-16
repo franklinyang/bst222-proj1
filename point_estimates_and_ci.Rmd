@@ -94,19 +94,31 @@ colors = c("steelblue", "orange", "darkolivegreen3", "red")
 colors.transparent = adjustcolor(colors, alpha.f = 0.3)
 
 par(mfrow = c(1,3))
+<<<<<<< HEAD
 plot(x, Exact.CI.lwr,type = "l",cex = 0.3, col = colors[1],ylim = c(2,8), main = "Confidence Interval vs. sample size n (Exact Method)",cex.main = 0.9, xlab = "Sample size", ylab = "Estimated Poisson rate")
+=======
+plot(x, Exact.CI.lwr,type = "l",cex = 0.3, col = colors[1],ylim = c(2,8), main = "Confidence Interval vs. sample size n (Exact Test)", xlab = "sample size", ylab = "Exact Confidence Interval", cex.main = 0.9)
+>>>>>>> refs/remotes/origin/master
 lines(x, Exact.CI.upr, cex = 0.3, col = colors[1])
 polygon(c(x,rev(x)),c(Exact.CI.upr,rev(Exact.CI.lwr)),col=colors.transparent[1], border = FALSE)
 abline(h = 5, col = colors[4])
 legend("topright", c("95% CI boundaries for Exact test", "True lambda = 5"), col = colors[c(1,4)], lty = 'solid')
 
+<<<<<<< HEAD
 plot(x, Score.CI.lwr,type = "l",cex = 0.3, col = colors[2], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Score Method)", cex.main = 0.9, xlab = "Sample size", ylab = "Estimated Poisson rate")
+=======
+plot(x, Score.CI.lwr,type = "l",cex = 0.3, col = colors[2], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Score Test)", xlab = "sample size", ylab = "Score Confidence Interval", cex.main = 0.9)
+>>>>>>> refs/remotes/origin/master
 lines(x, Score.CI.upr, pch = 20, cex = 0.3, col = colors[2])
 polygon(c(x,rev(x)),c(Score.CI.upr,rev(Score.CI.lwr)),col=colors.transparent[2], border = FALSE)
 abline(h = 5, col = colors[4])
 legend("topright", c("95% CI boundaries for Score test", "True lambda = 5"), col = colors[c(2,4)], lty = 'solid')
 
+<<<<<<< HEAD
 plot(x, Wald.CI.lwr,type = "l",cex = 0.3, col = colors[3], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Wald Method)", cex.main= 0.9, xlab = "Sample size", ylab = "Estimated Poisson rate")
+=======
+plot(x, Wald.CI.lwr,type = "l",cex = 0.3, col = colors[3], ylim = c(2,8), main = "Confidence Interval vs. sample size n (Wald Test)", xlab = "sample size", ylab = "Wald Confidence Interval", cex.main= 0.9)
+>>>>>>> refs/remotes/origin/master
 lines(x, Wald.CI.upr, pch = 20, cex = 0.3, col = colors[3])
 polygon(c(x,rev(x)),c(Wald.CI.upr,rev(Wald.CI.lwr)),col=colors.transparent[3], border = FALSE)
 abline(h = 5, col = colors[4])
